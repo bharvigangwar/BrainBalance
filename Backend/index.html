@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrainBalance — Stress & Burnout Predictor</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Brain<span>Balance</span></div>
+    <p class="tagline">Know your mind. Protect your energy.</p>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Predict Your<br /><em>Stress & Burnout</em><br />Before It Peaks</h1>
+    <p>Answer 5 simple lifestyle questions. Our ML model instantly tells you your stress level and burnout risk.</p>
+    <a href="#form-section" class="btn-primary">Take the Assessment</a>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <p>Fill in your daily lifestyle details</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <p>Our Python ML model analyses your inputs</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <p>Get your stress level & burnout risk instantly</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM SECTION -->
+  <section class="form-section" id="form-section">
+    <h2>Your Lifestyle Check-In</h2>
+    <p class="form-intro">All fields are required. Be honest — the more accurate your inputs, the better the prediction.</p>
+
+    <form id="stressForm">
+
+      <!-- Sleep Hours -->
+      <div class="form-group">
+        <label for="sleep">How many hours did you sleep last night?</label>
+        <div class="slider-row">
+          <input type="range" id="sleep" name="sleep" min="0" max="12" value="7" step="0.5" />
+          <span class="slider-val" id="sleepVal">7 hrs</span>
+        </div>
+      </div>
+
+      <!-- Work Hours -->
+      <div class="form-group">
+        <label for="work">How many hours did you work today?</label>
+        <div class="slider-row">
+          <input type="range" id="work" name="work" min="0" max="16" value="8" step="0.5" />
+          <span class="slider-val" id="workVal">8 hrs</span>
+        </div>
+      </div>
+
+      <!-- Screen Time -->
+      <div class="form-group">
+        <label for="screen">Total screen time (outside work) in hours?</label>
+        <div class="slider-row">
+          <input type="range" id="screen" name="screen" min="0" max="12" value="3" step="0.5" />
+          <span class="slider-val" id="screenVal">3 hrs</span>
+        </div>
+      </div>
+
+      <!-- Mood -->
+      <div class="form-group">
+        <label>How is your mood today?</label>
+        <div class="mood-options">
+          <label class="mood-chip"><input type="radio" name="mood" value="5" /> 😄 Great</label>
+          <label class="mood-chip"><input type="radio" name="mood" value="4" /> 🙂 Good</label>
+          <label class="mood-chip"><input type="radio" name="mood" value="3" checked /> 😐 Okay</label>
+          <label class="mood-chip"><input type="radio" name="mood" value="2" /> 😟 Low</label>
+          <label class="mood-chip"><input type="radio" name="mood" value="1" /> 😩 Terrible</label>
+        </div>
+      </div>
+
+      <!-- Exercise -->
+      <div class="form-group">
+        <label for="exercise">Did you exercise today?</label>
+        <div class="toggle-options">
+          <label class="toggle-chip"><input type="radio" name="exercise" value="1" checked /> Yes</label>
+          <label class="toggle-chip"><input type="radio" name="exercise" value="0" /> No</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Analyse My Balance →</button>
+
+    </form>
+  </section>
+
+  <!-- RESULT SECTION -->
+  <section class="result-section" id="resultSection" style="display:none;">
+    <h2>Your Results</h2>
+    <div class="result-cards">
+
+      <div class="result-card" id="stressCard">
+        <p class="result-label">Stress Level</p>
+        <p class="result-value" id="stressLevel">—</p>
+      </div>
+
+      <div class="result-card" id="burnoutCard">
+        <p class="result-label">Burnout Risk</p>
+        <p class="result-value" id="burnoutRisk">—</p>
+      </div>
+
+    </div>
+    <p class="result-advice" id="resultAdvice"></p>
+    <button class="btn-secondary" onclick="resetForm()">Try Again</button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>BrainBalance &copy; 2025 &mdash; Built with HTML, CSS, JS, Node.js & Python ML</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

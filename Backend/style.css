@@ -1,0 +1,373 @@
+/* ===========================
+   BRAINBALANCE — STYLESHEET
+   Clean, chic, minimal design
+   =========================== */
+
+/* --- RESET & BASE --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #f7f5f0;
+  --white: #ffffff;
+  --ink: #1a1a1a;
+  --muted: #6b6b6b;
+  --accent: #2d6a4f;        /* deep green — calm, brain-health */
+  --accent-light: #d8f3dc;
+  --danger: #c0392b;
+  --danger-light: #fdecea;
+  --warn: #e67e22;
+  --warn-light: #fef3e2;
+  --border: #e0ddd6;
+  --radius: 12px;
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+/* --- HEADER --- */
+header {
+  text-align: center;
+  padding: 2.5rem 1rem 1rem;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+
+.logo span { color: var(--accent); }
+
+.tagline {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+/* --- HERO --- */
+.hero {
+  text-align: center;
+  padding: 5rem 1.5rem 4rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 1.2rem;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- HOW IT WORKS --- */
+.how-it-works {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 3.5rem 1.5rem;
+  text-align: center;
+}
+
+.how-it-works h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  margin-bottom: 2.5rem;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.step {
+  flex: 1;
+  min-width: 180px;
+  max-width: 220px;
+}
+
+.step-num {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  opacity: 0.7;
+}
+
+.step p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* --- FORM SECTION --- */
+.form-section {
+  max-width: 640px;
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+}
+
+.form-section h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-intro {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 2.5rem;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  color: var(--ink);
+}
+
+/* --- SLIDERS --- */
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+input[type="range"] {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 4px;
+  background: var(--border);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.slider-val {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent);
+  min-width: 50px;
+  text-align: right;
+}
+
+/* --- MOOD CHIPS --- */
+.mood-options, .toggle-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.mood-chip, .toggle-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  background: var(--white);
+  transition: all 0.2s;
+}
+
+.mood-chip:hover, .toggle-chip:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.mood-chip input, .toggle-chip input {
+  display: none; /* hide the radio, style the label */
+}
+
+.mood-chip.selected, .toggle-chip.selected {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  font-weight: 500;
+}
+
+/* --- BUTTONS --- */
+.btn-primary {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: var(--accent);
+  color: var(--white);
+  border-radius: 100px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.btn-primary:hover {
+  background: #1f4d38;
+  transform: translateY(-1px);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 1rem;
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 1rem;
+}
+
+.btn-submit:hover {
+  background: #1f4d38;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 0.7rem 1.8rem;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: var(--accent-light);
+}
+
+/* --- RESULT SECTION --- */
+.result-section {
+  max-width: 640px;
+  margin: 2rem auto 4rem;
+  padding: 0 1.5rem;
+  text-align: center;
+  animation: fadeUp 0.5s ease;
+}
+
+.result-section h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.result-cards {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.result-card {
+  flex: 1;
+  min-width: 180px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+}
+
+.result-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.result-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--ink);
+}
+
+/* colour the stress result card based on level */
+.result-card.low  { border-color: var(--accent); background: var(--accent-light); }
+.result-card.medium { border-color: var(--warn); background: var(--warn-light); }
+.result-card.high { border-color: var(--danger); background: var(--danger-light); }
+
+.result-advice {
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: 420px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* --- FOOTER --- */
+footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* --- ANIMATION --- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 480px) {
+  .steps { flex-direction: column; align-items: center; }
+  .result-cards { flex-direction: column; }
+}
