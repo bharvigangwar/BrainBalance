@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BrainBalance — AI-powered stress and burnout prediction platform. Track your mental wellness, get personalized advice, and chat with an AI therapist." />
+  <meta name="theme-color" content="#2d6a4f" />
+  <title>BrainBalance — AI Stress & Burnout Predictor</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Chart.js for dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo" onclick="showPage('home')">Brain<span>Balance</span></a>
+      <div class="nav-links">
+        <a href="#" class="nav-link active" data-page="home" onclick="showPage('home')">Home</a>
+        <a href="#" class="nav-link" data-page="dashboard" onclick="showPage('dashboard')" id="navDashboard" style="display:none;">Dashboard</a>
+        <div class="nav-auth" id="navAuth">
+          <button class="btn-nav" id="btnShowLogin" onclick="openAuthModal('login')">Log In</button>
+          <button class="btn-nav btn-nav-primary" id="btnShowSignup" onclick="openAuthModal('signup')">Sign Up</button>
+        </div>
+        <div class="nav-user" id="navUser" style="display:none;">
+          <div class="user-xp-badge" id="userXpBadge">
+            <span class="xp-level" id="navLevel">Lv 1</span>
+            <span class="xp-points" id="navXP">0 XP</span>
+            <span class="streak-fire" id="navStreak" title="Current streak">🔥 0</span>
+          </div>
+          <span class="user-name" id="navUserName">User</span>
+          <button class="btn-nav btn-logout" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- AUTH MODAL -->
+  <div class="modal-overlay" id="authModal" style="display:none;">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+      <h2 id="authModalTitle">Log In</h2>
+      <p class="modal-subtitle" id="authModalSubtitle">Welcome back to BrainBalance</p>
+      
+      <form id="authForm" onsubmit="handleAuth(event)">
+        <div class="form-group" id="authNameGroup" style="display:none;">
+          <label for="authName">Full Name</label>
+          <input type="text" id="authName" placeholder="Enter your name" />
+        </div>
+        <div class="form-group">
+          <label for="authEmail">Email</label>
+          <input type="email" id="authEmail" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="authPassword">Password</label>
+          <input type="password" id="authPassword" placeholder="Min 6 characters" required />
+        </div>
+        <p class="auth-error" id="authError" style="display:none;"></p>
+        <button type="submit" class="btn-submit" id="authSubmitBtn">Log In</button>
+      </form>
+      
+      <p class="auth-toggle">
+        <span id="authToggleText">Don't have an account?</span>
+        <a href="#" id="authToggleLink" onclick="toggleAuthMode(event)">Sign Up</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ HOME PAGE ═══════════════════════ -->
+  <div id="homePage">
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-badge">✨ AI-Powered Mental Wellness</div>
+      <h1>Predict Your<br /><em>Stress & Burnout</em><br />Before It Peaks</h1>
+      <p>Answer lifestyle questions, get ML-powered predictions, smart recommendations, and chat with an AI wellness companion — all in one place.</p>
+      <a href="#form-section" class="btn-primary">Take the Assessment →</a>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works">
+      <h2>How it works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">📝</div>
+          <div class="step-num">01</div>
+          <p>Fill in your daily lifestyle details — sleep, work, mood, and more</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">🤖</div>
+          <div class="step-num">02</div>
+          <p>Our Python ML model analyses your inputs using Random Forest AI</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">📊</div>
+          <div class="step-num">03</div>
+          <p>Get stress level, burnout risk, smart tips, and a daily plan</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES GRID -->
+    <section class="features-section">
+      <h2>Powerful Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">🧠</span>
+          <h3>ML Prediction</h3>
+          <p>Random Forest AI model trained on lifestyle patterns</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">💬</span>
+          <h3>AI Therapist</h3>
+          <p>Chat with Gemini-powered wellness companion</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📈</span>
+          <h3>History Dashboard</h3>
+          <p>Track your stress trends over weeks and months</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🎮</span>
+          <h3>Gamification</h3>
+          <p>Earn XP, badges, and maintain healthy streaks</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🎙️</span>
+          <h3>Voice Input</h3>
+          <p>Speak your feelings — auto-fill with voice</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📄</span>
+          <h3>PDF Reports</h3>
+          <p>Download detailed stress assessment reports</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM SECTION -->
+    <section class="form-section" id="form-section">
+      <h2>Your Lifestyle Check-In</h2>
+      <p class="form-intro">All fields help improve prediction accuracy. Be honest — the more accurate your inputs, the better the prediction.</p>
+
+      <form id="stressForm">
+
+        <!-- Sleep Hours -->
+        <div class="form-group">
+          <label for="sleep">How many hours did you sleep last night?</label>
+          <div class="slider-row">
+            <input type="range" id="sleep" name="sleep" min="0" max="12" value="7" step="0.5" />
+            <span class="slider-val" id="sleepVal">7 hrs</span>
+          </div>
+        </div>
+
+        <!-- Sleep Quality (NEW) -->
+        <div class="form-group">
+          <label>How was your sleep quality?</label>
+          <div class="mood-options">
+            <label class="mood-chip"><input type="radio" name="sleepQuality" value="1" /> 😫 Terrible</label>
+            <label class="mood-chip"><input type="radio" name="sleepQuality" value="2" /> 😕 Poor</label>
+            <label class="mood-chip selected"><input type="radio" name="sleepQuality" value="3" checked /> 😐 Okay</label>
+            <label class="mood-chip"><input type="radio" name="sleepQuality" value="4" /> 😊 Good</label>
+            <label class="mood-chip"><input type="radio" name="sleepQuality" value="5" /> 😴 Excellent</label>
+          </div>
+        </div>
+
+        <!-- Work Hours -->
+        <div class="form-group">
+          <label for="work">How many hours did you work today?</label>
+          <div class="slider-row">
+            <input type="range" id="work" name="work" min="0" max="16" value="8" step="0.5" />
+            <span class="slider-val" id="workVal">8 hrs</span>
+          </div>
+        </div>
+
+        <!-- Screen Time -->
+        <div class="form-group">
+          <label for="screen">Total screen time (outside work) in hours?</label>
+          <div class="slider-row">
+            <input type="range" id="screen" name="screen" min="0" max="12" value="3" step="0.5" />
+            <span class="slider-val" id="screenVal">3 hrs</span>
+          </div>
+        </div>
+
+        <!-- Caffeine Intake (NEW) -->
+        <div class="form-group">
+          <label for="caffeine">Caffeine intake today? ☕</label>
+          <div class="slider-row">
+            <input type="range" id="caffeine" name="caffeine" min="0" max="10" value="2" step="1" />
+            <span class="slider-val" id="caffeineVal">2 cups</span>
+          </div>
+        </div>
+
+        <!-- Deadline Pressure (NEW) -->
+        <div class="form-group">
+          <label for="deadlines">How much deadline pressure do you feel? 📅</label>
+          <div class="slider-row">
+            <input type="range" id="deadlines" name="deadlines" min="1" max="10" value="5" step="1" />
+            <span class="slider-val" id="deadlinesVal">5/10</span>
+          </div>
+        </div>
+
+        <!-- Social Interaction (NEW) -->
+        <div class="form-group">
+          <label for="social">Hours of social interaction today? 👥</label>
+          <div class="slider-row">
+            <input type="range" id="social" name="social" min="0" max="8" value="2" step="0.5" />
+            <span class="slider-val" id="socialVal">2 hrs</span>
+          </div>
+        </div>
+
+        <!-- Mood -->
+        <div class="form-group">
+          <label>How is your mood today?</label>
+          <div class="mood-options">
+            <label class="mood-chip"><input type="radio" name="mood" value="5" /> 😄 Great</label>
+            <label class="mood-chip"><input type="radio" name="mood" value="4" /> 🙂 Good</label>
+            <label class="mood-chip selected"><input type="radio" name="mood" value="3" checked /> 😐 Okay</label>
+            <label class="mood-chip"><input type="radio" name="mood" value="2" /> 😟 Low</label>
+            <label class="mood-chip"><input type="radio" name="mood" value="1" /> 😩 Terrible</label>
+          </div>
+        </div>
+
+        <!-- Exercise -->
+        <div class="form-group">
+          <label for="exercise">Did you exercise today? 🏃</label>
+          <div class="toggle-options">
+            <label class="toggle-chip selected"><input type="radio" name="exercise" value="1" checked /> Yes</label>
+            <label class="toggle-chip"><input type="radio" name="exercise" value="0" /> No</label>
+          </div>
+        </div>
+
+        <!-- Voice Input Button -->
+        <div class="voice-input-section">
+          <button type="button" class="btn-voice" id="btnVoice" onclick="toggleVoiceInput()">
+            <span class="voice-icon" id="voiceIcon">🎙️</span>
+            <span id="voiceText">Speak Your Feelings</span>
+          </button>
+          <p class="voice-hint" id="voiceHint" style="display:none;">Say something like: "I slept 5 hours and worked 12 hours today"</p>
+          <p class="voice-result" id="voiceResult" style="display:none;"></p>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmit">Analyse My Balance →</button>
+
+      </form>
+    </section>
+
+    <!-- RESULT SECTION -->
+    <section class="result-section" id="resultSection" style="display:none;">
+      <h2>Your Results</h2>
+
+      <!-- Stress Alert Banner -->
+      <div class="alert-banner" id="alertBanner" style="display:none;">
+        <div class="alert-icon" id="alertIcon">⚠️</div>
+        <div class="alert-content">
+          <p class="alert-title" id="alertTitle">High Stress Detected!</p>
+          <p class="alert-text" id="alertText">You need a break. Consider trying a breathing exercise.</p>
+        </div>
+        <button class="alert-action" id="alertAction" onclick="startBreathing()">🧘 Breathe</button>
+      </div>
+
+      <div class="result-cards">
+        <div class="result-card" id="stressCard">
+          <p class="result-label">Stress Level</p>
+          <p class="result-value" id="stressLevel">—</p>
+        </div>
+        <div class="result-card" id="burnoutCard">
+          <p class="result-label">Burnout Risk</p>
+          <p class="result-value" id="burnoutRisk">—</p>
+        </div>
+        <div class="result-card" id="xpCard" style="display:none;">
+          <p class="result-label">XP Earned</p>
+          <p class="result-value" id="xpEarned">—</p>
+        </div>
+      </div>
+
+      <!-- Smart Recommendations -->
+      <div class="recommendations-box" id="recommendationsBox">
+        <h3>💡 Smart Recommendations</h3>
+        <ul id="recommendationsList"></ul>
+      </div>
+
+      <!-- New Badges -->
+      <div class="new-badges-box" id="newBadgesBox" style="display:none;">
+        <h3>🏆 New Badges Earned!</h3>
+        <div class="badges-row" id="newBadgesRow"></div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="result-actions">
+        <button class="btn-secondary" onclick="resetForm()">Try Again</button>
+        <button class="btn-accent" onclick="openChat()">💬 Talk to AI Assistant</button>
+        <button class="btn-accent" onclick="generatePlan()">📋 Generate Stress-Free Plan</button>
+        <button class="btn-accent" onclick="downloadReport()">📄 Download PDF Report</button>
+      </div>
+
+      <!-- Daily Plan -->
+      <div class="plan-box" id="planBox" style="display:none;">
+        <h3>📋 Your Personalized Daily Plan</h3>
+        <div class="plan-content" id="planContent"></div>
+      </div>
+    </section>
+
+    <!-- BREATHING EXERCISE MODAL -->
+    <div class="modal-overlay" id="breathingModal" style="display:none;">
+      <div class="modal-card breathing-card">
+        <button class="modal-close" onclick="closeBreathing()">&times;</button>
+        <h2>Box Breathing Exercise</h2>
+        <p class="breathing-subtitle">Follow the circle. Repeat 4 times.</p>
+        <div class="breathing-circle" id="breathingCircle">
+          <span id="breathingText">Ready?</span>
+        </div>
+        <button class="btn-primary" id="btnStartBreathing" onclick="runBreathing()">Start</button>
+      </div>
+    </div>
+
+  </div><!-- end homePage -->
+
+
+  <!-- ═══════════════════════ DASHBOARD PAGE ═══════════════════════ -->
+  <div id="dashboardPage" style="display:none;">
+    <section class="dashboard-section">
+      <div class="dashboard-header">
+        <h2>📊 Your Wellness Dashboard</h2>
+        <div class="dashboard-controls">
+          <select id="dashPeriod" onchange="loadDashboard()">
+            <option value="7">Last 7 Days</option>
+            <option value="14">Last 14 Days</option>
+            <option value="30" selected>Last 30 Days</option>
+            <option value="90">Last 90 Days</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-cards">
+        <div class="stat-card">
+          <div class="stat-icon">📝</div>
+          <div class="stat-value" id="statTotalAssessments">0</div>
+          <div class="stat-label">Total Assessments</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🟢</div>
+          <div class="stat-value" id="statLow">0</div>
+          <div class="stat-label">Low Stress Days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🟡</div>
+          <div class="stat-value" id="statMedium">0</div>
+          <div class="stat-label">Medium Stress</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔴</div>
+          <div class="stat-value" id="statHigh">0</div>
+          <div class="stat-label">High Stress</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Stress Trend</h3>
+          <canvas id="stressTrendChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Stress Distribution</h3>
+          <canvas id="stressDistChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Averages -->
+      <div class="averages-card">
+        <h3>📈 Your Averages</h3>
+        <div class="averages-grid">
+          <div class="avg-item">
+            <span class="avg-label">Avg Sleep</span>
+            <span class="avg-value" id="avgSleep">—</span>
+          </div>
+          <div class="avg-item">
+            <span class="avg-label">Avg Work</span>
+            <span class="avg-value" id="avgWork">—</span>
+          </div>
+          <div class="avg-item">
+            <span class="avg-label">Avg Screen</span>
+            <span class="avg-value" id="avgScreen">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Badges Collection -->
+      <div class="badges-collection" id="badgesCollection">
+        <h3>🏆 Your Badges</h3>
+        <div class="badges-grid" id="badgesGrid">
+          <p class="no-badges">Complete assessments to earn badges!</p>
+        </div>
+      </div>
+
+      <!-- Recent Records -->
+      <div class="recent-records">
+        <h3>Recent Assessments</h3>
+        <div class="records-table-wrap">
+          <table class="records-table" id="recordsTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Sleep</th>
+                <th>Work</th>
+                <th>Mood</th>
+                <th>Stress</th>
+                <th>Burnout</th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody">
+              <tr><td colspan="6" class="no-data">No records yet. Take an assessment!</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div><!-- end dashboardPage -->
+
+
+  <!-- ═══════════════════════ AI CHAT WIDGET ═══════════════════════ -->
+  <div class="chat-bubble" id="chatBubble" onclick="toggleChat()">
+    <span class="chat-bubble-icon">💬</span>
+    <span class="chat-bubble-badge" id="chatBadge" style="display:none;">1</span>
+  </div>
+
+  <div class="chat-panel" id="chatPanel" style="display:none;">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <span class="chat-avatar">🧠</span>
+        <div>
+          <span class="chat-title">BrainBalance AI</span>
+          <span class="chat-status">Online • Always here for you</span>
+        </div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">
+        <div class="msg-content">Hi there! I'm your BrainBalance AI companion 🧠✨<br><br>I'm here to help you manage stress. Tell me how you're feeling! 💙<br><br><small>💡 I'm an AI companion, not a therapist.</small></div>
+      </div>
+    </div>
+    <div class="chat-typing" id="chatTyping" style="display:none;">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendChat()" />
+      <button class="chat-send" onclick="sendChat()">➤</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>BrainBalance &copy; 2025 &mdash; AI-Powered Mental Wellness Platform</p>
+    <p class="footer-sub">Built with HTML, CSS, JS, Node.js, Python ML, MongoDB & Google Gemini AI</p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/gamification.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/pwa.js"></script>
+
+</body>
+</html>
