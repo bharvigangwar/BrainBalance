@@ -174,3 +174,14 @@ function resetForm() {
   // Scroll back to form
   document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
 }
+
+// 1. IntersectionObserver for scroll fade-up
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// 2. Shimmer on submit
+document.getElementById('stressForm').addEventListener('submit', () => {
+  document.querySelector('.btn-submit').classList.add('shimmer');
+});

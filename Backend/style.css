@@ -161,6 +161,41 @@ header {
   margin-bottom: 0.75rem;
   color: var(--ink);
 }
+/* Card wrapper for each question */
+.form-group {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: box-shadow 0.2s;
+}
+.form-group:focus-within {
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
+  border-color: var(--accent);
+}
+
+/* Slider thumb ring + scale */
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.2);
+}
+
+/* Slider value as green pill */
+.slider-val {
+  background: var(--accent);
+  color: var(--white);
+  padding: 2px 10px;
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  min-width: fit-content;
+}
+
+/* Mood chip selected state animation */
+.mood-chip.selected, .toggle-chip.selected {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 2px var(--accent);
+}
 
 /* --- SLIDERS --- */
 .slider-row {
@@ -193,13 +228,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.2);
 }
 
-.slider-val {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--accent);
-  min-width: 50px;
-  text-align: right;
-}
+
 
 /* --- MOOD CHIPS --- */
 .mood-options, .toggle-options {
@@ -370,4 +399,32 @@ footer {
 @media (max-width: 480px) {
   .steps { flex-direction: column; align-items: center; }
   .result-cards { flex-direction: column; }
+}
+
+/* ALERT BANNER-RESULT CARDS */
+.alert-banner {
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: none;
+}
+.alert-banner.low    { background: var(--accent-light); color: var(--accent); display: block; }
+.alert-banner.medium { background: var(--warn-light);   color: var(--warn);   display: block; }
+.alert-banner.high   { background: var(--danger-light); color: var(--danger); display: block; }
+
+/* Fade-up scroll animation */
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.5s, transform 0.5s; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* Submit shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.btn-submit.shimmer {
+  background: linear-gradient(90deg, #2d6a4f 25%, #52b788 50%, #2d6a4f 75%);
+  background-size: 200% auto;
+  animation: shimmer 1.2s linear infinite;
 }
