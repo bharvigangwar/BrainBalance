@@ -19,17 +19,17 @@ import os
 import numpy as np
 
 # --- SKLEARN IMPORTS ---
-from sklearn.ensemble import RandomForestClassifier, VotingClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
-import joblib
+<<<<<<< HEAD
+# scikit-learn is the ML library we use
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import LabelEncoder
+import joblib   # for saving/loading the trained model
+
 
 # Get the absolute path to the model file (script directory)
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(SCRIPT_DIR, 'stress_model_v2.pkl')
-SCALER_PATH = os.path.join(SCRIPT_DIR, 'scaler.pkl')
+MODEL_PATH = os.path.join(SCRIPT_DIR, 'stress_model.pkl')
 
-# -------------------------------------------------------
 #  EXPANDED TRAINING DATA (80+ samples)
 #  Format: [sleep, work, screen, mood, exercise, caffeine, deadlines, social, sleepQuality] → stress label
 # -------------------------------------------------------
@@ -113,6 +113,7 @@ TRAINING_DATA = [
     [3, 12,  7, 1, 0, 6, 9, 0, 1, 'High'],
     [4, 13,  8, 1, 0, 5, 8, 0, 2, 'High'],
 ]
+>>>>>>> e3819d18a5234c6b369ecb517c164f4dd5a1ef17
 
 
 def train_model():
