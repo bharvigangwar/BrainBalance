@@ -1,7 +1,0 @@
-node_modules/
-.env
-*.pkl
-__pycache__/
-.venv/
-.vscode/
-*.log
