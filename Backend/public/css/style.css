@@ -47,7 +47,8 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg);
+  background: linear-gradient(135deg, #e9f5ee 0%, #f7f5f0 40%, #fef9f0 100%);
+  background-attachment: fixed;
   color: var(--ink);
   line-height: 1.6;
   overflow-x: hidden;
@@ -495,9 +496,17 @@ body {
    FORM SECTION
    ═══════════════════════════════════════ */
 .form-section {
-  max-width: 640px;
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
   margin: 4rem auto;
-  padding: 0 1.5rem;
+  padding: 3rem 2.5rem;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.80);
+  border-radius: 24px;
+  box-shadow: 0 8px 48px rgba(45, 106, 79, 0.12);
 }
 .form-section h2 {
   font-family: var(--font-display);
@@ -1299,4 +1308,40 @@ footer {
 @keyframes pulseRing {
   0%, 100% { transform: scale(1); opacity: 0.15; }
   50%       { transform: scale(1.06); opacity: 0.30; }
+}
+
+/* ═══════════════════════════════════════
+   BLOB BACKGROUND BEHIND FORM
+   ═══════════════════════════════════════ */
+.form-blob-wrap {
+  position: relative;
+  padding: 2rem 1.5rem;
+  overflow: hidden;
+}
+
+.form-blob-wrap::before,
+.form-blob-wrap::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.form-blob-wrap::before {
+  width: 420px;
+  height: 420px;
+  background: #b7e4c7;
+  top: -80px;
+  left: -100px;
+}
+
+.form-blob-wrap::after {
+  width: 340px;
+  height: 340px;
+  background: #c7e8f0;
+  bottom: -60px;
+  right: -80px;
 }
