@@ -31,7 +31,8 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg);
+  background: linear-gradient(135deg, #e9f5ee 0%, #f7f5f0 40%, #fef9f0 100%);
+  background-attachment: fixed;
   color: var(--ink);
   line-height: 1.6;
 }
@@ -60,10 +61,23 @@ header {
 
 /* --- HERO --- */
 .hero {
-  text-align: center;
-  padding: 5rem 1.5rem 4rem;
-  max-width: 680px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  padding: 5rem 6rem 4rem;
+  max-width: 1200px;
   margin: 0 auto;
+  text-align: left;
+}
+
+.hero-text { display: flex; flex-direction: column; align-items: flex-start; }
+.hero-visual { display: flex; justify-content: center; align-items: center; }
+
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; text-align: center; padding: 3rem 1.5rem; }
+  .hero-text { align-items: center; }
+  .hero-visual { display: none; }
 }
 
 .hero h1 {
@@ -133,11 +147,18 @@ header {
 
 /* --- FORM SECTION --- */
 .form-section {
-  max-width: 640px;
-  margin: 4rem auto;
-  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 2.5rem;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.80);
+  border-radius: 24px;
+  box-shadow: 0 8px 48px rgba(45, 106, 79, 0.12);
 }
-
 .form-section h2 {
   font-family: var(--font-display);
   font-size: 2rem;
@@ -427,4 +448,69 @@ footer {
   background: linear-gradient(90deg, #2d6a4f 25%, #52b788 50%, #2d6a4f 75%);
   background-size: 200% auto;
   animation: shimmer 1.2s linear infinite;
+}
+
+/* === BLOB BACKGROUND === */
+.form-blob-wrap {
+  position: relative;
+  padding: 3rem 1.5rem;
+  overflow: hidden;
+}
+
+.form-blob-wrap::before,
+.form-blob-wrap::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.form-blob-wrap::before {
+  width: 420px;
+  height: 420px;
+  background: #b7e4c7;
+  top: -80px;
+  left: -100px;
+}
+
+.form-blob-wrap::after {
+  width: 340px;
+  height: 340px;
+  background: #c7e8f0;
+  bottom: -60px;
+  right: -80px;
+}
+
+
+/* === SVG BRAIN ILLUSTRATION === */
+.brain-svg-wrap {
+  position: relative;
+  width: 320px;
+  height: 320px;
+}
+
+.brain-svg-wrap .ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  opacity: 0.15;
+  animation: pulseRing 3s ease-in-out infinite;
+}
+
+.brain-svg-wrap .ring:nth-child(1) { width: 320px; height: 320px; top: 0; left: 0; animation-delay: 0s; }
+.brain-svg-wrap .ring:nth-child(2) { width: 240px; height: 240px; top: 40px; left: 40px; animation-delay: 0.6s; }
+.brain-svg-wrap .ring:nth-child(3) { width: 160px; height: 160px; top: 80px; left: 80px; animation-delay: 1.2s; }
+
+.brain-svg-wrap .brain-core {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes pulseRing {
+  0%, 100% { transform: scale(1); opacity: 0.15; }
+  50%       { transform: scale(1.06); opacity: 0.30; }
 }

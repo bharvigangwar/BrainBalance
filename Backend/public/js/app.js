@@ -3,6 +3,90 @@
 //   Form handling, results, navigation
 // ===================================
 
+
+
+// ═══════════════════════════════════════
+// STICKY PROGRESS BAR
+// ═══════════════════════════════════════
+const progressBar = document.getElementById('progressBar');
+const tracked = {
+  sleep: false, work: false, screen: false,
+  mood: false, exercise: false,
+  caffeine: false, deadlines: false, social: false
+};
+
+function updateProgress() {
+  const done = Object.values(tracked).filter(Boolean).length;
+  progressBar.style.width = (done / Object.keys(tracked).length * 100) + '%';
+}
+
+['sleep', 'work', 'screen', 'caffeine', 'deadlines', 'social'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => { tracked[id] = true; updateProgress(); });
+});
+document.querySelectorAll('input[name="mood"]').forEach(r =>
+  r.addEventListener('change', () => { tracked.mood = true; updateProgress(); }));
+document.querySelectorAll('input[name="exercise"]').forEach(r =>
+  r.addEventListener('change', () => { tracked.exercise = true; updateProgress(); }));
+
+// ═══════════════════════════════════════
+// CONFETTI ON LOW STRESS
+// ═══════════════════════════════════════
+function fireConfetti() {
+  confetti({
+    particleCount: 130,
+    spread: 80,
+    origin: { y: 0.6 },
+    colors: ['#2d6a4f', '#52b788', '#b7e4c7', '#d8f3dc', '#ffffff']
+  });
+}
+
+
+
+// ═══════════════════════════════════════
+// LIVE EMOJI FACE
+// ═══════════════════════════════════════
+function updateEmoji() {
+  const sleep     = parseFloat(document.getElementById('sleep').value);
+  const work      = parseFloat(document.getElementById('work').value);
+  const screen    = parseFloat(document.getElementById('screen').value);
+  const moodEl    = document.querySelector('input[name="mood"]:checked');
+  const mood      = moodEl ? parseInt(moodEl.value) : 3;
+  const deadlines = parseInt(document.getElementById('deadlines').value);
+
+  let score = 0;
+  score += sleep     >= 7  ? 2 : sleep     >= 5 ? 1 : 0;
+  score += work      <= 8  ? 2 : work      <= 11 ? 1 : 0;
+  score += screen    <= 3  ? 2 : screen    <= 6  ? 1 : 0;
+  score += mood      >= 4  ? 2 : mood      === 3 ? 1 : 0;
+  score += deadlines <= 4  ? 2 : deadlines <= 6  ? 1 : 0;
+
+  const emoji = score >= 8 ? '😄'
+              : score >= 6 ? '🙂'
+              : score >= 4 ? '😐'
+              : score >= 2 ? '😟'
+              : '😩';
+
+  const el = document.getElementById('liveEmoji');
+  if (el && el.textContent !== emoji) {
+    el.style.transform = 'scale(1.3)';
+    setTimeout(() => {
+      el.textContent = emoji;
+      el.style.transform = 'scale(1)';
+    }, 150);
+  }
+}
+
+// Attach emoji listeners to all inputs
+['sleep', 'work', 'screen', 'caffeine', 'deadlines', 'social'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateEmoji);
+});
+document.querySelectorAll('input[name="mood"]').forEach(r =>
+  r.addEventListener('change', updateEmoji));
+
+
+
 // Last prediction data (used by chat, report, plan)
 let lastPrediction = null;
 let lastInputData = null;
@@ -105,17 +189,18 @@ function showResults(result) {
   document.getElementById('stressLevel').textContent = stressLevel;
   document.getElementById('burnoutRisk').textContent = burnoutRisk;
 
-  // Color the stress card
-  const stressCard = document.getElementById('stressCard');
-  stressCard.className = 'result-card';
-  stressCard.classList.add(stressLevel.toLowerCase());
+  // Flip and color stress card
+  const stressCardBack = document.getElementById('stressCardBack');
+  stressCardBack.className = 'flip-card-back ' + stressLevel.toLowerCase();
 
-  // Color the burnout card
-  const burnoutCard = document.getElementById('burnoutCard');
-  burnoutCard.className = 'result-card';
-  if (burnoutRisk.includes('Low')) burnoutCard.classList.add('low');
-  else if (burnoutRisk.includes('Moderate')) burnoutCard.classList.add('medium');
-  else burnoutCard.classList.add('high');
+  // Flip and color burnout card
+  const burnoutCardBack = document.getElementById('burnoutCardBack');
+  burnoutCardBack.className = 'flip-card-back';
+  if (burnoutRisk.includes('Low')) burnoutCardBack.classList.add('low');
+  else if (burnoutRisk.includes('Moderate')) burnoutCardBack.classList.add('medium');
+  else burnoutCardBack.classList.add('high');
+
+  
 
   // Show recommendations
   const recList = document.getElementById('recommendationsList');
@@ -176,10 +261,27 @@ function showResults(result) {
   // Show alert banner for high stress
   showAlertBanner(stressLevel);
 
-  // Show and scroll
+// Show and scroll
   const resultSection = document.getElementById('resultSection');
   resultSection.style.display = 'block';
   resultSection.scrollIntoView({ behavior: 'smooth' });
+
+  // Confetti for low stress
+  if (stressLevel === 'Low') fireConfetti();
+
+  // Fill progress bar to 100% on submit
+  progressBar.style.width = '100%';
+
+  
+
+  // Trigger flips with stagger AFTER section is visible
+  setTimeout(() => document.getElementById('stressCard').classList.add('flipped'), 300);
+  setTimeout(() => document.getElementById('burnoutCard').classList.add('flipped'), 600);
+  if (result.xpEarned) {
+    setTimeout(() => document.getElementById('xpCardInner').classList.add('flipped'), 900);
+  }
+
+
 
   // Request notification permission for future alerts
   if ('Notification' in window && Notification.permission === 'default') {
@@ -426,6 +528,9 @@ function resetForm() {
   });
 
   // Reset plan and badges
+  // Reset card flips
+  document.getElementById('stressCard').classList.remove('flipped');
+  document.getElementById('burnoutCard').classList.remove('flipped');
   document.getElementById('planBox').style.display = 'none';
   document.getElementById('newBadgesBox').style.display = 'none';
   document.getElementById('alertBanner').style.display = 'none';

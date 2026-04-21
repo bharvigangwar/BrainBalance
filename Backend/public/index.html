@@ -11,8 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <!-- Chart.js for dashboard -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </head>
 <body>
+<div id="progressBar"></div>
 
   <!-- NAVIGATION -->
   <nav class="navbar" id="navbar">
@@ -74,11 +76,31 @@
 
     <!-- HERO SECTION -->
     <section class="hero">
-      <div class="hero-badge">✨ AI-Powered Mental Wellness</div>
-      <h1>Predict Your<br /><em>Stress & Burnout</em><br />Before It Peaks</h1>
-      <p>Answer lifestyle questions, get ML-powered predictions, smart recommendations, and chat with an AI wellness companion — all in one place.</p>
-      <a href="#form-section" class="btn-primary">Take the Assessment →</a>
-    </section>
+ <div class="hero-text">
+    <div id="liveEmoji">😐</div>
+    <div class="hero-badge">✨ AI-Powered Mental Wellness</div>
+    <h1>Predict Your<br /><em>Stress & Burnout</em><br />Before It Peaks</h1>
+    <p>Answer lifestyle questions, get ML-powered predictions, smart recommendations, and chat with an AI wellness companion — all in one place.</p>
+    <a href="#form-section" class="btn-primary">Take the Assessment →</a>
+  </div>
+  <div class="hero-visual">
+    <div class="brain-svg-wrap">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="brain-core">
+        <svg width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="50" cy="50" rx="38" ry="32" fill="#d8f3dc" stroke="#2d6a4f" stroke-width="2"/>
+          <path d="M50 22 C35 22 20 33 20 50 C20 65 33 78 50 78 C67 78 80 65 80 50 C80 33 65 22 50 22Z" fill="#b7e4c7" opacity="0.5"/>
+          <line x1="50" y1="22" x2="50" y2="78" stroke="#2d6a4f" stroke-width="1.5" opacity="0.4"/>
+          <path d="M28 42 Q38 36 50 40 Q62 36 72 42" stroke="#2d6a4f" stroke-width="1.5" fill="none" opacity="0.5"/>
+          <path d="M24 54 Q36 48 50 52 Q64 48 76 54" stroke="#2d6a4f" stroke-width="1.5" fill="none" opacity="0.5"/>
+          <circle cx="50" cy="50" r="6" fill="#2d6a4f" opacity="0.7"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- HOW IT WORKS -->
     <section class="how-it-works">
@@ -140,6 +162,7 @@
     </section>
 
     <!-- FORM SECTION -->
+    <div class="form-blob-wrap">
     <section class="form-section" id="form-section">
       <h2>Your Lifestyle Check-In</h2>
       <p class="form-intro">All fields help improve prediction accuracy. Be honest — the more accurate your inputs, the better the prediction.</p>
@@ -247,6 +270,7 @@
 
       </form>
     </section>
+    </div>
 
     <!-- RESULT SECTION -->
     <section class="result-section" id="resultSection" style="display:none;">
@@ -262,19 +286,47 @@
         <button class="alert-action" id="alertAction" onclick="startBreathing()">🧘 Breathe</button>
       </div>
 
-      <div class="result-cards">
-        <div class="result-card" id="stressCard">
-          <p class="result-label">Stress Level</p>
-          <p class="result-value" id="stressLevel">—</p>
+     <div class="result-cards">
+
+        <div class="flip-card">
+          <div class="flip-card-inner" id="stressCard">
+            <div class="flip-card-front">
+              <p class="result-label">Stress Level</p>
+              <p class="result-value">?</p>
+            </div>
+            <div class="flip-card-back" id="stressCardBack">
+              <p class="result-label">Stress Level</p>
+              <p class="result-value" id="stressLevel">—</p>
+            </div>
+          </div>
         </div>
-        <div class="result-card" id="burnoutCard">
-          <p class="result-label">Burnout Risk</p>
-          <p class="result-value" id="burnoutRisk">—</p>
+
+        <div class="flip-card">
+          <div class="flip-card-inner" id="burnoutCard">
+            <div class="flip-card-front">
+              <p class="result-label">Burnout Risk</p>
+              <p class="result-value">?</p>
+            </div>
+            <div class="flip-card-back" id="burnoutCardBack">
+              <p class="result-label">Burnout Risk</p>
+              <p class="result-value" id="burnoutRisk">—</p>
+            </div>
+          </div>
         </div>
-        <div class="result-card" id="xpCard" style="display:none;">
-          <p class="result-label">XP Earned</p>
-          <p class="result-value" id="xpEarned">—</p>
+
+        <div class="flip-card" id="xpCard" style="display:none;">
+          <div class="flip-card-inner" id="xpCardInner">
+            <div class="flip-card-front">
+              <p class="result-label">XP Earned</p>
+              <p class="result-value">?</p>
+            </div>
+            <div class="flip-card-back">
+              <p class="result-label">XP Earned</p>
+              <p class="result-value" id="xpEarned">—</p>
+            </div>
+          </div>
         </div>
+
       </div>
 
       <!-- Smart Recommendations -->

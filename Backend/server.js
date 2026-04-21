@@ -21,7 +21,15 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
 // Serve all frontend files from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+  etag: false,
+  lastModified: false,
+  setHeaders: (res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  }
+}));
 
 // ── API Routes ──
 app.use('/api/auth',    require('./routes/auth'));

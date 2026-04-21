@@ -1,9 +1,12 @@
 // ===================================
 //   BRAINBALANCE — SERVICE WORKER
-//   Offline support + caching
+//   Dev: no cache | Prod: cache first
 // ===================================
 
-const CACHE_NAME = 'brainbalance-v2';
+const CACHE_NAME = 'brainbalance-v3';
+const DEV_MODE = self.location.hostname === 'localhost' || 
+                 self.location.hostname === '127.0.0.1';
+
 const STATIC_ASSETS = [
   '/',
   '/css/style.css',
@@ -17,8 +20,12 @@ const STATIC_ASSETS = [
   '/manifest.json'
 ];
 
-// Install — cache static assets
+// Install
 self.addEventListener('install', (event) => {
+  if (DEV_MODE) {
+    self.skipWaiting();
+    return;
+  }
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(STATIC_ASSETS))
@@ -38,23 +45,28 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch — cache first for static, network first for API
+// Fetch
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Network first for API calls
+  // API calls — always network first
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
-      fetch(event.request)
-        .catch(() => new Response(
-          JSON.stringify({ error: 'You are offline. Please check your connection.' }),
-          { headers: { 'Content-Type': 'application/json' } }
-        ))
+      fetch(event.request).catch(() => new Response(
+        JSON.stringify({ error: 'You are offline. Please check your connection.' }),
+        { headers: { 'Content-Type': 'application/json' } }
+      ))
     );
     return;
   }
 
-  // Cache first for static assets
+  // DEV MODE — always fetch fresh, never cache
+  if (DEV_MODE) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
+  // PROD MODE — cache first for static assets
   event.respondWith(
     caches.match(event.request)
       .then(cached => cached || fetch(event.request)
